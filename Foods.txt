@@ -1,10 +1,10 @@
-Chocolate
-Speculaas
-Garlic Bread
-Pistachio
-Mashed Potatoes
-Sesame snaps
-Croissant
-Buffalo Wing
-Chicken Balls
-Icecream Cake
+chocolate
+speculaas
+garlic bread
+pistachio
+mashed potatoes
+sesame snaps
+croissant
+buffalo wing
+chicken balls
+icecream cake

@@ -1,4 +1,4 @@
-Movies
-Foods
-Countrys
+movies
+foods
+countries
 
