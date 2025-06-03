@@ -62,9 +62,11 @@ public static void main (String[] args){
 					//have the user guess a letter and if correct replace the dashes with the letter (can be more than one spot)
 					//initiatlize points
 					//have a Guess boolean variable which is initialized as false and if a letter is guessed is set to true
-					boolean Guess = false;
 					int intPoints=strHiddenWord.length();
 					char ch=' ';
+					// loop through guessing letters until all dashes or points are gone
+					while(strDashedWord.toString().contains("-") && intPoints != 0){
+					boolean Guess = false;
 					con.println("Please enter your guess for a letter:");
 					ch = con.readChar();
 					//parse strDashedWord letter by letter and compare with letter entered by the user
@@ -82,10 +84,11 @@ public static void main (String[] args){
 					//con.println(Guess);
 					con.println(strDashedWord);
 					con.println("You have:"+intPoints);
-				}
+				} //end while
+				} //end if strTheme
 		
-		}
+		}// end strChoice "play game"
 		
-	}
-}
+	}// end public static
+}// end cptmain
 
