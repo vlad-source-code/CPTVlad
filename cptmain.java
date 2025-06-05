@@ -13,13 +13,16 @@ public static void main (String[] args){
 		con.println("2: View LeaderBoard");
 		con.println("3: Add Theme");
 		con.println("4: Quit");
-		con.println("What would you like to choose?");
+		con.println("What would you like to choose (please enter the name of the option)?");
 		strChoice = con.readLine();
 		// if they choose play game, start it with asking their name and printing themes to console
 		if(strChoice.contains("Play Game")){
-			String strName;
+			String strPlayer;
 			con.println("What is your name?");
-			strName = con.readLine();
+			strPlayer = con.readLine();
+			int PlayerWins = 0;
+			TextOutputFile LeaderBoard = new TextOutputFile("leaderboard.txt");
+			LeaderBoard.println(strPlayer);
 			TextInputFile Themes = new TextInputFile("themes.txt");
 				while(Themes.eof() == false){
 					con.println(Themes.readLine());
@@ -27,29 +30,29 @@ public static void main (String[] args){
 				Themes.close();
 				con.println("Please enter one theme to play");
 				String strTheme;
+				String Ftype = ".txt";
 				strTheme = con.readLine();
 				// depending on the theme they enter, open the respective txt file, then select a random word from that file and print to console using ---
-				if(strTheme.contains("foods")){
-					TextInputFile Foods = new TextInputFile("foods.txt");
-					int intFoodsNo = 0;
-					while(Foods.eof() == false){
-							Foods.readLine();
-							intFoodsNo = intFoodsNo +1 ;
+					TextInputFile Theme = new TextInputFile(strTheme.concat(Ftype));
+					int intThemeItemsNo = 0;
+					while(Theme.eof() == false){
+							Theme.readLine();
+							intThemeItemsNo = intThemeItemsNo +1 ;
 					}
-					Foods.close();
+					Theme.close();
 					// select a random number from 0 to the number of fodd items and use that in the food file with the corsoponding word
-					 int randomNum = (int)(Math.random() * (intFoodsNo));
+					 int randomNum = (int)(Math.random() * (intThemeItemsNo));
 					 //con.println(randomNum);
-					String strFoods[] = new String[intFoodsNo];
+					String strThemeArray[] = new String[intThemeItemsNo];
 					int intIdx = 0;
-					Foods = new TextInputFile("foods.txt");
-					while(Foods.eof() == false){
-							strFoods[intIdx]=Foods.readLine();
+					Theme = new TextInputFile(strTheme.concat(Ftype));
+					while(Theme.eof() == false){
+							strThemeArray[intIdx]= Theme.readLine();
 							intIdx = intIdx +1;
 					}
 					// print using ---- 
 					int intcount;
-					String strHiddenWord = strFoods[randomNum];
+					String strHiddenWord = strThemeArray[randomNum];
 					StringBuilder strDashedWord = new StringBuilder(strHiddenWord);
 					
 					for(intcount=0;intcount<strHiddenWord.length();intcount++){
@@ -85,9 +88,13 @@ public static void main (String[] args){
 					con.println(strDashedWord);
 					con.println("You have:"+intPoints);
 				} //end while
-				} //end if strTheme
-		
+				if (intPoints > 0) {
+					PlayerWins = PlayerWins +1;
+					LeaderBoard.println(String.valueOf(PlayerWins));
+			    }
+				LeaderBoard.close();
 		}// end strChoice "play game"
+
 		
 	}// end public static
 }// end cptmain
