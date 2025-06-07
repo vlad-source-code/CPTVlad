@@ -15,6 +15,7 @@ public static void main (String[] args){
 		con.println("4: Quit");
 		con.println("What would you like to choose (please enter the name of the option)?");
 		strChoice = con.readLine();
+		TextOutputFile LeaderBoard = new TextOutputFile("leaderboard.txt");
 		// if they choose play game, start it with asking their name and printing themes to console
 		
 		if(strChoice.contains("Play Game")){
@@ -24,14 +25,13 @@ public static void main (String[] args){
 			strPlayer = con.readLine();
 			String strPlayAgain = "Yes";
 			int PlayerWins = 0;
-			TextOutputFile LeaderBoard = new TextOutputFile("leaderboard.txt");
 			LeaderBoard.println(strPlayer);
 			TextInputFile Themes = new TextInputFile("themes.txt");
 			String strTheme;
 			String Ftype = ".txt";
 			TextInputFile Theme;
 			int intThemeItemsNo = 0;
-			int randomNum = 0;
+			int intWordIdx = 0;
 			String strHiddenWord;
 			StringBuilder strDashedWord;
 			int intPoints;
@@ -44,40 +44,32 @@ public static void main (String[] args){
 			Themes.close();
 			con.println("Please enter one theme to play");
 			strTheme = con.readLine();
-
+            Theme = new TextInputFile(strTheme.concat(Ftype));
+			// depending on the theme they enter, open the respective txt file, then select a random word from that file and print to console using ---
+					
+			while(Theme.eof() == false){
+				Theme.readLine();
+				intThemeItemsNo = intThemeItemsNo +1 ;
+			}
+			Theme.close();
+			String strThemeArray[] = new String[intThemeItemsNo];
+			int intIdx = 0;
+			Theme = new TextInputFile(strTheme.concat(Ftype));
+			int intcount;
+			while(Theme.eof() == false){
+				strThemeArray[intIdx]= Theme.readLine();
+				intIdx = intIdx +1;
+			}
 			while (strPlayAgain.contains("Yes")) {
-				
-
-				// depending on the theme they enter, open the respective txt file, then select a random word from that file and print to console using ---
-					Theme = new TextInputFile(strTheme.concat(Ftype));
-					while(Theme.eof() == false){
-							Theme.readLine();
-							intThemeItemsNo = intThemeItemsNo +1 ;
-					}
-					Theme.close();
-					// select a random number from 0 to the number of items and use that in the theme file with the corsoponding word
-					// FEATURE: rather than the 1st item ie position 0 pick a random item
-					 if (FirstRound = true){
-					 randomNum = (int)(Math.random() * (intThemeItemsNo));
-				     }
-					 //con.println(randomNum);
-					String strThemeArray[] = new String[intThemeItemsNo];
-					int intIdx = 0;
-					Theme = new TextInputFile(strTheme.concat(Ftype));
-					while(Theme.eof() == false){
-							strThemeArray[intIdx]= Theme.readLine();
-							intIdx = intIdx +1;
-					}
-					// print using ---- 
-					int intcount;
-					strHiddenWord = strThemeArray[randomNum];
+					
+					strHiddenWord = strThemeArray[intWordIdx];
 					strDashedWord = new StringBuilder(strHiddenWord);
 					
 					for(intcount=0;intcount<strHiddenWord.length();intcount++){
 					   strDashedWord.setCharAt(intcount,'-');
 					}
 					//testing
-					//con.println("The random word is:"+strHiddenWord);
+					//con.println("The hidden word is:"+strHiddenWord);
 					con.println("The dashed version of the random word is:"+strDashedWord);
 					
 					//have the user guess a letter and if correct replace the dashes with the letter (can be more than one spot)
@@ -105,27 +97,27 @@ public static void main (String[] args){
 					//con.println(Guess);
 					con.println(strDashedWord);
 					con.println("You have:"+intPoints);
-				} //end while
-				if (intPoints > 0) {
-					PlayerWins = PlayerWins+1;
-					LeaderBoard.println(PlayerWins);
-					if(randomNum < intThemeItemsNo) {
-					randomNum = randomNum +1;
-					FirstRound = false;	
-				    }
-					// reached the end of the theme, last item/word was processed
-					else {
+				    
+				} // end while dashedword
+				if (intPoints >= 0) {
+					    PlayerWins = PlayerWins+1;
+					    
+					    if(intWordIdx < intThemeItemsNo - 1) {
+					       intWordIdx = intWordIdx +1;
+				        }
+					    // else reached the end of the theme, last item/word was processed
+					    else {
+					       strPlayAgain = "No";
+					    }
+			     }
+			     // else player lost, points = 0
+			     else{ 
 					strPlayAgain = "No";
-					}
-			    }
-			    // player lost, points = 0
-			    else{ 
-					strPlayAgain = "No";
-			    }
-				LeaderBoard.close();
-		}
-		
-		}// end while "play game"
+			     }	
+		} // end while play again
+		LeaderBoard.println(PlayerWins);
+		LeaderBoard.close();
+		} // end if "play game"
 
 		
 	}// end public static
