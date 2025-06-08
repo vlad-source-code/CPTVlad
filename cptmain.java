@@ -14,22 +14,27 @@ public static void main (String[] args){
 		con.println("3: Add Theme");
 		con.println("4: Quit");
 		con.println("What would you like to choose (please enter the name of the option)?");
-		strChoice = con.readLine();
-		TextOutputFile LeaderBoard = new TextOutputFile("leaderboard.txt");
-		// if they choose play game, start it with asking their name and printing themes to console
 		
-		if(strChoice.contains("Play Game")){
+		
+		// if they choose play game, start it with asking their name and printing themes to console
+		String strTheme;
+		String Ftype = ".txt";
+		
+		while(!strChoice.contains("Quit")){
+		  strChoice = con.readLine();
+		  if(strChoice.contains("Play Game")){
 			con.clear();
+			TextOutputFile LeaderBoard = new TextOutputFile("leaderboard.txt", true);
+			TextInputFile Theme;
+		    TextInputFile Themes = new TextInputFile("themes.txt");
 			String strPlayer = "";
 			con.println("What is your name?");
 			strPlayer = con.readLine();
 			String strPlayAgain = "Yes";
 			int PlayerWins = 0;
 			LeaderBoard.println(strPlayer);
-			TextInputFile Themes = new TextInputFile("themes.txt");
-			String strTheme;
-			String Ftype = ".txt";
-			TextInputFile Theme;
+			
+			
 			int intThemeItemsNo = 0;
 			int intWordIdx = 0;
 			String strHiddenWord;
@@ -118,8 +123,88 @@ public static void main (String[] args){
 		LeaderBoard.println(PlayerWins);
 		LeaderBoard.close();
 		} // end if "play game"
-
+        
+        // start add theme
+        if(strChoice.contains("Add Theme")){
+	       con.clear();
+	       con.println("Please enter a name (lowercase) for a new theme:");
+	       strTheme = con.readLine();
+	       TextOutputFile Theme = new TextOutputFile(strTheme.concat(Ftype));
+	       TextOutputFile Themes = new TextOutputFile("themes.txt", true);
+	       Themes.println(strTheme);
+	       Themes.close();
+	       String strNewWord = "";
+	       while(!strNewWord.contains("Done")){
+	            con.println("Please enter a new word for theme or Done when finished");
+	            strNewWord=con.readLine();
+	            if(!strNewWord.contains("Done")) {
+	                Theme.println(strNewWord);
+	            }
+	       }
+	       Theme.close();
+	       
+	    } // end add theme
 		
+		if(strChoice.contains("View LeaderBoard")){
+			//read from leadeboard.txt into a 2D array, buble-sort the array and print it to the console
+			// determine how many records are in the leaderboard.txt file
+			con.clear();
+			int intCount =0;
+			int intCount2 =0;
+			TextInputFile LeaderBoardIn = new TextInputFile("leaderboard.txt");
+			while(LeaderBoardIn.eof()== false) {
+				LeaderBoardIn.readLine();
+				intCount = intCount +1;
+			}
+			LeaderBoardIn.close();
+			int intPlayers = intCount/2;
+			String strLeaderBoardArray[][];
+			strLeaderBoardArray = new String[intPlayers][2];
+			String strPlayerTemp = "";
+			String strScoreTemp = "";
+		    // read the LeaderBoard.txt into StrLeaderBoard array
+		    LeaderBoardIn = new TextInputFile("leaderboard.txt");
+		    for(intCount=0; intCount<intPlayers; intCount++) {
+				strLeaderBoardArray[intCount][0] = LeaderBoardIn.readLine();
+				strLeaderBoardArray[intCount][1] = LeaderBoardIn.readLine();
+		    }
+		    LeaderBoardIn.close();
+		    
+		    // print the array before sorting
+		    con.println("Before sorting");
+		    for(intCount = 0; intCount < intPlayers; intCount++){
+			    con.println(strLeaderBoardArray[intCount][0] + " - " + strLeaderBoardArray[intCount][1]);
+		    }
+		    
+		    
+		    
+		    // bubble sort the array from highest to lowest score
+		    con.println("After sorting");
+		    for(intCount2 = 0; intCount2 < intPlayers-1; intCount2++){
+				for(intCount = 0; intCount < intPlayers-1; intCount++){
+					if(Integer.parseInt(strLeaderBoardArray[intCount][1]) < Integer.parseInt(strLeaderBoardArray[intCount+1][1])){
+						// Swap
+						// swap player name
+						strPlayerTemp = strLeaderBoardArray[intCount][0];
+						strLeaderBoardArray[intCount][0] = strLeaderBoardArray[intCount+1][0];
+						strLeaderBoardArray[intCount+1][0] = strPlayerTemp;
+						// swapping player score
+						strScoreTemp = strLeaderBoardArray[intCount][1];
+						strLeaderBoardArray[intCount][1] = strLeaderBoardArray[intCount+1][1];
+						strLeaderBoardArray[intCount+1][1] = strScoreTemp;
+				    }
+			    }
+		     }
+		    
+		    // print the sorted array
+		    for(intCount = 0; intCount < intPlayers; intCount++){
+			    con.println(strLeaderBoardArray[intCount][0] + " - " + strLeaderBoardArray[intCount][1]);
+		    }
+		}
+		// end View LeaderBoard
+		
+	 } // end while not quit
+	con.println("You left the game");	
 	}// end public static
 }// end cptmain
 
