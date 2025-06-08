@@ -24,6 +24,9 @@ public static void main (String[] args){
 		  strChoice = con.readLine();
 		  if(strChoice.contains("Play Game")){
 			con.clear();
+			boolean DonePlayGame = false;
+			String strContinuePlay ="";
+			while(!DonePlayGame) {
 			TextOutputFile LeaderBoard = new TextOutputFile("leaderboard.txt", true);
 			TextInputFile Theme;
 		    TextInputFile Themes = new TextInputFile("themes.txt");
@@ -122,11 +125,22 @@ public static void main (String[] args){
 		} // end while play again
 		LeaderBoard.println(PlayerWins);
 		LeaderBoard.close();
-		} // end if "play game"
+		con.println("Please enter Play to add another theme or Done to finish playing game");
+	    strContinuePlay = con.readLine();
+	    if(strContinuePlay.contains("Done")) {
+			DonePlayGame = true;
+	    }
+	   } // end while not done play game
+	   
+	} // end if "play game"
         
         // start add theme
+        
         if(strChoice.contains("Add Theme")){
 	       con.clear();
+	       Boolean DoneAddTheme = false;
+           String strContinueAdd = "";
+           while(!DoneAddTheme) {
 	       con.println("Please enter a name (lowercase) for a new theme:");
 	       strTheme = con.readLine();
 	       TextOutputFile Theme = new TextOutputFile(strTheme.concat(Ftype));
@@ -141,10 +155,14 @@ public static void main (String[] args){
 	                Theme.println(strNewWord);
 	            }
 	       }
-	       Theme.close();
-	       
-	    } // end add theme
-		
+	       Theme.close();   
+	    con.println("Please enter Add to add another theme or Done to finish adding themes");
+	    strContinueAdd = con.readLine();
+	    if(strContinueAdd.contains("Done")) {
+			DoneAddTheme = true;
+	    }
+	   } 
+	  } // end add theme
 		if(strChoice.contains("View LeaderBoard")){
 			//read from leadeboard.txt into a 2D array, buble-sort the array and print it to the console
 			// determine how many records are in the leaderboard.txt file
@@ -202,9 +220,17 @@ public static void main (String[] args){
 		    }
 		}
 		// end View LeaderBoard
-		
+	 con.clear();
+	 con.println("Word Guessing Game!");
+	 con.println("1: Play Game");
+	 con.println("2: View LeaderBoard");
+	 con.println("3: Add Theme");
+	 con.println("4: Quit");
+	 con.println("What would you like to choose (please enter the name of the option)?");
+	 strChoice = con.readLine();	
 	 } // end while not quit
-	con.println("You left the game");	
+	 
+	con.println("You left the game, come back soon!!!");	
 	}// end public static
 }// end cptmain
 
