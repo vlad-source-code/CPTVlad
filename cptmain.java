@@ -1,28 +1,44 @@
 import arc.*;
 
+//import javax.swing.*;
+//import java.awt.event.*; - for mouse input
+
 public class cptmain{
 
+
 public static void main (String[] args){
+	
 	Console con = new Console();
 		
-		String strChoice = "";
+		//String strChoice = "";
+		char chChoice ='Z';
 		
 		// when you start, see a logo, play game, view leaderboard, add theme and quit
-		con.println("Word Guessing Game!");
-		con.println("1: Play Game");
-		con.println("2: View LeaderBoard");
-		con.println("3: Add Theme");
-		con.println("4: Quit");
-		con.println("What would you like to choose (please enter the name of the option)?");
+		//EXTRA FEATURE5: console window is 1280x720 with the title of the game
+		//JFrame frame = new JFrame("Vlad's Word Guessing Game!");
+        //JTextArea console = new JTextArea();
+		//console.setText("Let's Play the Game!");
+		//frame.add(new JScrollPane(console));
+        //frame.setSize(1280, 720); // Set window size in pixels
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setVisible(true);
+        // use JLabel variables for input ie gettext() and output settext()
+        
+		con.println("(P)lay Game - enter P to select this option");
+		con.println("(V)iew LeaderBoard - enter V to select this option");
+		con.println("(A)dd Theme - enter A to select this option");
+		con.println("(H)elp - enter H to selet this option");
+		con.println("(Q)uit - enter Q to select this option");
+		con.println("What would you like to choose (please enter the letter in brackets of the option)?");
 		
 		
 		// if they choose play game, start it with asking their name and printing themes to console
 		String strTheme;
 		String Ftype = ".txt";
 		
-		while(!strChoice.contains("Quit")){
-		  strChoice = con.readLine();
-		  if(strChoice.contains("Play Game")){
+		while(chChoice != 'Q'){
+		  chChoice = con.readLine().charAt(0);
+		  if(chChoice == 'P'){
 			con.clear();
 			boolean DonePlayGame = false;
 			String strContinuePlay ="";
@@ -136,7 +152,7 @@ public static void main (String[] args){
         
         // start add theme
         
-        if(strChoice.contains("Add Theme")){
+        if(chChoice == 'A'){
 	       con.clear();
 	       Boolean DoneAddTheme = false;
            String strContinueAdd = "";
@@ -163,7 +179,7 @@ public static void main (String[] args){
 	    }
 	   } 
 	  } // end add theme
-		if(strChoice.contains("View LeaderBoard")){
+		if(chChoice == 'V'){
 			//read from leadeboard.txt into a 2D array, buble-sort the array and print it to the console
 			// determine how many records are in the leaderboard.txt file
 			con.clear();
@@ -185,13 +201,18 @@ public static void main (String[] args){
 		    for(intCount=0; intCount<intPlayers; intCount++) {
 				strLeaderBoardArray[intCount][0] = LeaderBoardIn.readLine();
 				strLeaderBoardArray[intCount][1] = LeaderBoardIn.readLine();
+				//EXTRA FEATURE4: if a player is "statitan" give it a bonus/extra win/guess ie increase its score by 1
+				if(strLeaderBoardArray[intCount][0].contains("statitan")) {
+			        strLeaderBoardArray[intCount][1] = Integer.toString(Integer.parseInt(strLeaderBoardArray[intCount][1])+1);
+			    }  
 		    }
 		    LeaderBoardIn.close();
 		    
 		    // print the array before sorting
 		    con.println("Before sorting");
+		    //EXTRA FEATURE3: use system.out.println()
 		    for(intCount = 0; intCount < intPlayers; intCount++){
-			    con.println(strLeaderBoardArray[intCount][0] + " - " + strLeaderBoardArray[intCount][1]);
+			    System.out.println(strLeaderBoardArray[intCount][0] + " - " + strLeaderBoardArray[intCount][1]);
 		    }
 		    
 		    
@@ -220,17 +241,40 @@ public static void main (String[] args){
 		    }
 		}
 		// end View LeaderBoard
+		
+		// EXTRA FEATURE1: help option
+		if(chChoice == 'H') {
+			con.clear();
+			con.println("This game is based on entering your name and guessing words from different themes");
+			con.println("There are three pre-defined themes in a list however you can add new themes");
+			con.println("The user can select a theme and then you are prompted to guess the first word form the theme (has at least 10 words");
+			con.println("The word is displayed masked with dashes instead of letters and you get a number of guesses equal to the number of letters");
+			con.println("If you guess a letter, all the matched letters in the word are displayed");
+			con.println("This ends when the first of you run out of points/guesses or you guess all the letters");
+			con.println("If you guess a word, your are prompted to guess the following word in the theme");
+			con.println("There is a hidden option which if selected displays  funny joke!!!");
+	    }
+	    // end help
+	    
+	    //EXTRA FEATURE2: hidden option J for joke
+	    if(chChoice == 'J') {
+			con.println("Player asks Chad ;) Why do we bother writing lines of code between code comment lines?");
+			con.println("Chad answers Yes I met Mr Cadawas");
+		}
+		// end joke
+		
+		
 	 con.clear();
 	 con.println("Word Guessing Game!");
-	 con.println("1: Play Game");
-	 con.println("2: View LeaderBoard");
-	 con.println("3: Add Theme");
-	 con.println("4: Quit");
-	 con.println("What would you like to choose (please enter the name of the option)?");
-	 strChoice = con.readLine();	
+	 con.println("(P)lay Game - enter P to select this option");
+	 con.println("(V)iew LeaderBoard - enter V to select this option");
+	 con.println("(A)dd Theme - enter A to select this option");
+	 con.println("(H)elp - enter H to select this option");
+	 con.println("(Q)uit - enter Q to select this option");
+	 con.println("What would you like to choose (please enter the letter in brackets of the option)?");
+	 chChoice = con.readLine().charAt(0);	
 	 } // end while not quit
 	 
 	con.println("You left the game, come back soon!!!");	
 	}// end public static
 }// end cptmain
-
