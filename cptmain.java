@@ -107,7 +107,7 @@ public static void main (String[] args){
 					ch=' ';
 					// loop through guessing letters until all dashes or points are gone
 				while(strDashedWord.toString().contains("-") && intPoints > 0){
-					
+					GuessLetter = false;
 					con.println("Please enter your guess for a letter:");
 					ch = con.readChar();
 					//parse strDashedWord letter by letter and compare with letter entered by the user
@@ -116,11 +116,9 @@ public static void main (String[] args){
 					   if(strHiddenWord.charAt(intcount) == ch) {
 						 GuessLetter = true;
 						 strDashedWord.setCharAt(intcount,ch);
-					   }
-					   else {
-					     GuessLetter = false;
-					   }
+					   }  
 				    } 
+				    
 				    if (!strDashedWord.toString().contains("-")){
 						PlayerWins = PlayerWins+1;
 						if(intWordIdx < intThemeItemsNo - 1) {
@@ -151,7 +149,11 @@ public static void main (String[] args){
 		LeaderBoard.println(PlayerWins);
 		LeaderBoard.close();
 		con.clear();
-		con.println("Please enter a theme or Done to exit guessing");
+		while(Themes.eof() == false){
+				con.println(Themes.readLine());
+			}
+		Themes.close();
+		con.println("Please enter a theme (you will also be prompted for a new player name) or Done to exit guessing");
 	    strContinuePlay = con.readLine();
 	    if(strContinuePlay.contains("Done")) {
 			DonePlayGame = true;
