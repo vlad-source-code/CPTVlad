@@ -24,13 +24,7 @@ public static void main (String[] args){
         // use JLabel variables for input ie gettext() and output settext()
         
         // when starting, display the game name and the options that can be selected
-		con.println("Welcome to The Word Guessing Game");
-		con.println("(P)lay Game - enter P to select this option");
-		con.println("(V)iew LeaderBoard - enter V to select this option");
-		con.println("(A)dd Theme - enter A to select this option");
-		con.println("(H)elp - enter H to select this option");
-		con.println("(Q)uit - enter Q to select this option");
-		con.println("To select an option, please enter the letter in brackets");
+		
 		
 		
 		// if they choose play game, start it with asking their name and printing themes to console
@@ -39,6 +33,13 @@ public static void main (String[] args){
 		
 		//keep playing the game until Quit
 		while(chChoice != 'Q'){
+		  con.println("Welcome to The Word Guessing Game");
+		  con.println("(P)lay Game - enter P to select this option");
+		  con.println("(V)iew LeaderBoard - enter V to select this option");
+		  con.println("(A)dd Theme - enter A to select this option");
+		  con.println("(H)elp - enter H to select this option");
+		  con.println("(Q)uit - enter Q to select this option");
+		  con.println("To select an option, please enter the letter in brackets");
 		  chChoice = con.readLine().charAt(0);
 		  if(chChoice == 'P'){
 			con.clear();
@@ -63,8 +64,6 @@ public static void main (String[] args){
 			int intPoints;
 			char ch;
 			boolean GuessLetter = false;
-			boolean GuessWord = false;
-			boolean FirstRound = true;
 			while(Themes.eof() == false){
 				con.println(Themes.readLine());
 			}
@@ -83,15 +82,13 @@ public static void main (String[] args){
 			int intIdx = 0;
 			Theme = new TextInputFile(strTheme.concat(Ftype));
 			int intcount;
-			boolean Lost;
+			
 			while(Theme.eof() == false){
 				strThemeArray[intIdx]= Theme.readLine();
 				intIdx = intIdx +1;
 			}
 			while (strPlayAgain.contains("Yes")) {
-					GuessWord = false;
-					GuessLetter = false;
-					Lost = false;
+
 					strHiddenWord = strThemeArray[intWordIdx];
 					strDashedWord = new StringBuilder(strHiddenWord);
 					
@@ -106,9 +103,10 @@ public static void main (String[] args){
 					//initiatlize points
 					//have a Guess boolean variable which is initialized as false and if a letter is guessed is set to true
 					intPoints=strHiddenWord.length();
+					con.println("You are starting off with this many points:"+intPoints);
 					ch=' ';
 					// loop through guessing letters until all dashes or points are gone
-					while(strDashedWord.toString().contains("-") && intPoints != 0 && Lost == false){
+				while(strDashedWord.toString().contains("-") && intPoints > 0){
 					
 					con.println("Please enter your guess for a letter:");
 					ch = con.readChar();
@@ -119,28 +117,31 @@ public static void main (String[] args){
 						 GuessLetter = true;
 						 strDashedWord.setCharAt(intcount,ch);
 					   }
+					   else {
+					     GuessLetter = false;
+					   }
 				    } 
 				    if (!strDashedWord.toString().contains("-")){
-						GuessWord=true;
 						PlayerWins = PlayerWins+1;
 						if(intWordIdx < intThemeItemsNo - 1) {
 					       intWordIdx = intWordIdx +1;
 				        }
-					    // else reached the end of the theme, last item/word was processed
-					    else {
+				        // else reached the end of the theme, last item/word was processed
+				        else {
 					       strPlayAgain = "No";
 					    }
-				    }
+				    }  
+					    
 				    if (GuessLetter == false){
 						intPoints=intPoints-1;
 						if(intPoints == 0) {
-					       Lost = true;
+					       strPlayAgain = "No";
 					    }
+					  
 					}
 					
-					//con.println(Guess);
 					con.println(strDashedWord);
-					con.println("You have:"+intPoints);
+					con.println("You have this many points remaining:"+intPoints);
 				    
 				} // end while dashedword
 				if (intPoints == 0) {
@@ -150,19 +151,23 @@ public static void main (String[] args){
 		LeaderBoard.println(PlayerWins);
 		LeaderBoard.close();
 		con.clear();
-		con.println("(P)lay Game - enter P to select this option");
-		con.println("(V)iew LeaderBoard - enter V to select this option");
-		con.println("(A)dd Theme - enter A to select this option");
-		con.println("(H)elp - enter H to select this option");
-		con.println("(Q)uit - enter Q to select this option");
-		con.println("To select an option, please enter the letter in brackets");
+		con.println("Please enter a theme or Done to exit guessing");
 	    strContinuePlay = con.readLine();
 	    if(strContinuePlay.contains("Done")) {
 			DonePlayGame = true;
 	    }
 	   } // end while not done play game
-	   
+	        //con.clear();
+	        //println("Welcome to The Word Guessing Game");
+			//con.println("(P)lay Game - enter P to select this option");
+		    //con.println("(V)iew LeaderBoard - enter V to select this option");
+		    //con.println("(A)dd Theme - enter A to select this option");
+		    //con.println("(H)elp - enter H to select this option");
+		    //con.println("(Q)uit - enter Q to select this option");
+		    //con.println("To select an option, please enter the letter in brackets");
+		    //chChoice = con.readLine().charAt(0); 
 	} // end if "play game"
+   
         
         // start add theme
         
@@ -190,9 +195,21 @@ public static void main (String[] args){
 	    strContinueAdd = con.readLine();
 	    if(strContinueAdd.contains("Done")) {
 			DoneAddTheme = true;
+			//con.clear();
+	        //println("Welcome to The Word Guessing Game");
+			//con.println("(P)lay Game - enter P to select this option");
+		    //con.println("(V)iew LeaderBoard - enter V to select this option");
+		    //con.println("(A)dd Theme - enter A to select this option");
+		    //con.println("(H)elp - enter H to select this option");
+		    //con.println("(Q)uit - enter Q to select this option");
+		    //con.println("To select an option, please enter the letter in brackets");
+		    //chChoice = con.readLine().charAt(0); 
 	    }
 	   } 
 	  } // end add theme
+	   
+	  
+	  //start view leaderboard
 		if(chChoice == 'V'){
 			//read from leadeboard.txt into a 2D array, buble-sort the array and print it to the console
 			// determine how many records are in the leaderboard.txt file
@@ -253,12 +270,22 @@ public static void main (String[] args){
 		    for(intCount = 0; intCount < intPlayers; intCount++){
 			    con.println(strLeaderBoardArray[intCount][0] + " - " + strLeaderBoardArray[intCount][1]);
 		    }
+		    //con.clear();
+	        //println("Welcome to The Word Guessing Game");
+			//con.println("(P)lay Game - enter P to select this option");
+		    //con.println("(V)iew LeaderBoard - enter V to select this option");
+		    //con.println("(A)dd Theme - enter A to select this option");
+		    //con.println("(H)elp - enter H to select this option");
+		    //con.println("(Q)uit - enter Q to select this option");
+		    //con.println("To select an option, please enter the letter in brackets");
+		    //chChoice = con.readLine().charAt(0); 
 		}
 		// end View LeaderBoard
 		
 		// EXTRA FEATURE1: help option
 		if(chChoice == 'H') {
-			con.clear();
+			//con.clear();
+			
 			con.println("This game is based on entering your name and guessing words from different themes");
 			con.println("There are three pre-defined themes in a list however you can add new themes");
 			con.println("The user can select a theme and then you are prompted to guess the first word form the theme (has at least 10 words");
@@ -267,6 +294,16 @@ public static void main (String[] args){
 			con.println("This ends when the first of you run out of points/guesses or you guess all the letters");
 			con.println("If you guess a word, your are prompted to guess the following word in the theme");
 			con.println("There is a hidden option which if selected displays  funny joke!!!");
+			
+			//con.clear();
+	        //con.println("Welcome to The Word Guessing Game");
+			//con.println("(P)lay Game - enter P to select this option");
+		    //con.println("(V)iew LeaderBoard - enter V to select this option");
+		    //con.println("(A)dd Theme - enter A to select this option");
+		    //con.println("(H)elp - enter H to select this option");
+		    //con.println("(Q)uit - enter Q to select this option");
+		    //con.println("To select an option, please enter the letter in brackets");
+		    //chChoice = con.readLine().charAt(0); 
 	    }
 	    // end help
 	    
@@ -274,19 +311,29 @@ public static void main (String[] args){
 	    if(chChoice == 'J') {
 			con.println("Player asks Chad ;) Why do we bother writing lines of code between code comment lines?");
 			con.println("Chad answers I see that you met Mr Cadawas");
+			
+			//con.clear();
+			//con.println("Welcome to The Word Guessing Game");
+			//con.println("(P)lay Game - enter P to select this option");
+		    //con.println("(V)iew LeaderBoard - enter V to select this option");
+		    //con.println("(A)dd Theme - enter A to select this option");
+		    //con.println("(H)elp - enter H to select this option");
+		    //con.println("(Q)uit - enter Q to select this option");
+		    //con.println("To select an option, please enter the letter in brackets");
+		    //chChoice = con.readLine().charAt(0); 
 		}
 		// end joke
 		
 		
-	 con.clear();
+	 //con.clear();
 	 //con.println("Word Guessing Game!");
-	 con.println("(P)lay Game - enter P to select this option");
-	 con.println("(V)iew LeaderBoard - enter V to select this option");
-	 con.println("(A)dd Theme - enter A to select this option");
-	 con.println("(H)elp - enter H to select this option");
-	 con.println("(Q)uit - enter Q to select this option");
-	 con.println("To select an option, please enter the letter in brackets");
-	 chChoice = con.readLine().charAt(0);	
+	 //con.println("(P)lay Game - enter P to select this option");
+	 //con.println("(V)iew LeaderBoard - enter V to select this option");
+	 //con.println("(A)dd Theme - enter A to select this option");
+	 //con.println("(H)elp - enter H to select this option");
+	 //con.println("(Q)uit - enter Q to select this option");
+	 //con.println("To select an option, please enter the letter in brackets");
+	 //chChoice = con.readLine().charAt(0);	
 	 } // end while not quit
 	 
 	con.println("You left the game, come back soon!!!");	
